@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Token</title>
+</head>
+
+<body>
+    <h1>Generate Token</h1>
+    <button id="generateTokenBtn">Generate Token</button>
+    <p>Status: <span id="TokenStatus">Not Generated</span></p>
+    <button onclick="openChild()">Open Page with POST</button>
+    <script>
+        const generateTokenBtn = document.getElementById('generateTokenBtn');
+        const TokenStatus = document.getElementById('TokenStatus');
+        var token, status;
+        generateTokenBtn.addEventListener('click', () => {
+            // Make an AJAX request to the Flask server to generate a token
+            fetch('https://ashwinmegait.pythonanywhere.com/GenerateToken', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.TokenStatus === 'Generated') {
+                        TokenStatus.textContent = data.TokenStatus;
+                        token = data.token;
+                        status = data.TokenStatus;
+                    }
+                });
+        });
+        var childwin;
+        const childname = "popup";
+        function openChild() {
+            childwin = window.open('https://ashwinmegait.pythonanywhere.com/TakePhoto', childname, 'height=300px, width=500px');
+
+        }
+    </script>
+</body>
+
+</html>
